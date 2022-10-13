@@ -63,9 +63,11 @@ var fetchButton = document.getElementById('button-search');
 var geoLat = 0;
 var geoLon = 0;
 
+var cityName ='';
+
 function getLatLon() {
 var geoAPI = 'https://api.openweathermap.org/geo/1.0/direct?q='
-var cityName = document.getElementById("cityname").value;
+cityName = document.getElementById("cityname").value;
 var searchCity = "'" + cityName + "'";
 console.log("Name of the city: " + cityName);
 
@@ -113,7 +115,7 @@ function getApi() {
         var windSpeed = weatherData.list[0].wind.speed
 
         // console.log("Todays Date" + todaysDate);
-        featureDate.textContent = "Date: " + currentDate;
+        featureDate.textContent = cityName + " " + currentDate;
         featureTemp.textContent = "Temperature: " + todaysTemp;
         featureWind.textContent = "Wind Speed: " + windSpeed;
         featurehumidity.textContent = "Huminity: " + todaysHumidity;
