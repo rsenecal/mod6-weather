@@ -9,8 +9,10 @@
 
 // 'api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}';
 
+var key = '120dfc7665d00ade68ea83f0ab620c2a';
+
 // Curent Days DATA
-var cityName = document.getElementById("cityname");
+// var cityName = document.getElementById("cityname");
 var featureDate = document.getElementById("feature-date");
 var featureTemp = document.getElementById("feature-temp");
 var featureWind = document.getElementById("feature-wind");
@@ -58,12 +60,36 @@ var weatherIcon5 =document.getElementById("weather_image-5");
 var iconUrl = "http://openweathermap.org/img/w/"  // To get the icon append the icon code from the api [list[i].weather[i].icon] + .png
 var fetchButton = document.getElementById('button-search');
 
+var geoLat = 0;
+var geoLon = 0;
+
+function getLatLon() {
+var geoAPI = 'https://api.openweathermap.org/geo/1.0/direct?q='
+var cityName = document.getElementById("cityname").value;
+var searchCity = "'" + cityName + "'";
+console.log("Name of the city: " + cityName);
+
+geoRequestURL = geoAPI + searchCity +'&limit=5&appid=' + key; 
+fetch(geoRequestURL)
+  .then(function (response){
+    return response.json();
+  })
+  .then(function(data){
+    var geoData = data;
+    geoLat = geoData[0].lat;
+    geoLon = geoData[0].lon;
+  })
+  // return [geolat, geolon]
+}
+
 function getApi() {
+  getLatLon();
     var apiBaseUrl = 'https://api.openweathermap.org/data/2.5/forecast?'
-    var lat = 34.0901;
-    var lon = -118.4065;
-    var key = '120dfc7665d00ade68ea83f0ab620c2a';
-    var requestUrl = apiBaseUrl.concat('lat=',lat,'&lon=',lon,"&appid=", key, "&units=imperial");
+    // var lat = 34.0901;
+    // var lon = -118.4065;
+    // var key = '120dfc7665d00ade68ea83f0ab620c2a';
+
+    var requestUrl = apiBaseUrl.concat('lat=',geoLat,'&lon=',geoLon,"&appid=", key, "&units=imperial");
 
   fetch(requestUrl)
     .then(function (response) {
